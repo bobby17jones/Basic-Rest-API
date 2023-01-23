@@ -12,9 +12,26 @@ namespace IpaTestProject.Repositories
             this._context = context;
         }
 
+        public async Task<Region> AddRegion(Region region)
+        {
+            region.Id = Guid.NewGuid();
+
+            await _context.AddAsync(region);
+
+            await _context.SaveChangesAsync();
+
+            return region;
+        }
+
         public async Task<IEnumerable<Region>> GetAll()
         {
             return await _context.Regions.ToListAsync();
         }
+
+        public async Task<Region> GetRegionById(Guid id)
+        {
+            return await _context.Regions.FirstOrDefaultAsync(r => r.Id == id);
+        }
+
     }
 }
