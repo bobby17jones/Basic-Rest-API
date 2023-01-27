@@ -9,5 +9,9 @@ namespace IpaTestProject.Repositories
        Task<Region>GetRegionById(Guid id);
 
        Task<Region>AddRegion(Region region);
+
+        Task<Region>DeleteRegion(Guid id);
+
+        Task<Region> UpdateRegion(Guid id, Region region);
     }
 }

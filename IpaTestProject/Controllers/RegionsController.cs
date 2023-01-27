@@ -72,5 +72,47 @@ namespace IpaTestProject.Controllers
 
             return CreatedAtAction(nameof(GetRegion), new {id = regionDto.Id}, regionDto);
         }
+
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> DeleteRegion(Guid id)
+        {
+            var region = await _regionRepository.DeleteRegion(id);
+
+            if (region == null)
+            {
+                return NotFound();
+            }
+
+            var regionDto = mapper.Map<Models.DTO.Region>(region);
+
+            return Ok(regionDto);
+        }
+
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> UpdateRegion(Guid id, UpdateRegion updateRegion)
+        {
+            var region = new Models.Domain.Region
+            {
+                Code = updateRegion.Code,
+                Area = updateRegion.Area,
+                Lat = updateRegion.Lat,
+                Long = updateRegion.Long,
+                Name = updateRegion.Name,
+                Population = updateRegion.Population
+            };
+
+            var response = await _regionRepository.UpdateRegion(id, region);
+
+            if (response == null)
+            {
+                return NotFound();
+            }
+
+            var regionDto = mapper.Map<Models.DTO.Region>(response);
+
+            return Ok(regionDto);
+        }
     }
 }
